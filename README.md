@@ -349,7 +349,7 @@ This project is licensed under the MIT License.
 
 **Chakshu Gupta**  
 **102303931**
-Email: cgupta_be23@thapar.edu
+**cgupta_be23@thapar.edu**
 
 ---
 
