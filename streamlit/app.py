@@ -526,10 +526,11 @@ if submit_btn:
     df["Rank"] = df["Topsis Score"].rank(ascending=False, method="dense").astype(int)
 
     # Display results
-    st.markdown('<div class="results-card">', unsafe_allow_html=True)
-    st.subheader("⚡ Analysis Results")
-    st.dataframe(df, use_container_width=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+    with st.container():
+        st.markdown('<div class="results-card">', unsafe_allow_html=True)
+        st.subheader("⚡ Analysis Results")
+        st.dataframe(df, use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
     # Save result temporarily
     with tempfile.NamedTemporaryFile(delete=False, suffix=".csv", mode='w') as tmp:
