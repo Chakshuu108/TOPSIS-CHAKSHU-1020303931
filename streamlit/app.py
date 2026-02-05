@@ -7,10 +7,13 @@ import tempfile
 import os
 
 # ---------------- EMAIL CONFIG ----------------
+# Use Streamlit secrets or environment variables for production
 SENDER_EMAIL = st.secrets["SENDER_EMAIL"]
 APP_PASSWORD = st.secrets["APP_PASSWORD"]
 
+
 # ---------------------------------------------
+
 
 st.set_page_config(
     page_title="TOPSIS Tool",
@@ -18,439 +21,173 @@ st.set_page_config(
     layout="centered"
 )
 
-# ---------------- REVOLUTIONARY CSS ----------------
+# ---------------- ENHANCED CSS ----------------
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap');
-    
-    * {
-        font-family: 'Inter', sans-serif;
-    }
-    
-    /* Animated gradient background */
+    /* Main background */
     .main {
-        background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe, #00f2fe);
-        background-size: 400% 400%;
-        animation: gradientShift 15s ease infinite;
-        padding: 0;
-        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 2rem 0;
     }
     
-    @keyframes gradientShift {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-    
-    /* Floating particles background */
-    .main::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: 
-            radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-            radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
-        pointer-events: none;
-        animation: float 20s ease-in-out infinite;
-    }
-    
-    @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-20px); }
-    }
-    
+    /* Remove default Streamlit padding */
     .block-container {
-        padding-top: 4rem;
-        padding-bottom: 4rem;
-        max-width: 950px;
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+        max-width: 800px;
     }
     
-    /* Liquid glass morphism container */
-    .liquid-glass {
-        position: relative;
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(30px) saturate(180%);
-        -webkit-backdrop-filter: blur(30px) saturate(180%);
-        padding: 3rem;
-        border-radius: 32px;
-        border: 2px solid rgba(255, 255, 255, 0.25);
-        box-shadow: 
-            0 8px 32px 0 rgba(0, 0, 0, 0.2),
-            inset 0 1px 0 0 rgba(255, 255, 255, 0.3),
-            0 0 60px rgba(255, 255, 255, 0.1);
-        margin: 2rem 0;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        overflow: hidden;
+    /* Card styling */
+    .card {
+        background: rgba(255, 255, 255, 0.98);
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        margin-bottom: 2rem;
     }
     
-    .liquid-glass::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-        transition: left 0.5s;
-    }
-    
-    .liquid-glass:hover::before {
-        left: 100%;
-    }
-    
-    .liquid-glass:hover {
-        transform: translateY(-5px);
-        box-shadow: 
-            0 12px 48px 0 rgba(0, 0, 0, 0.25),
-            inset 0 1px 0 0 rgba(255, 255, 255, 0.4),
-            0 0 80px rgba(255, 255, 255, 0.15);
-        border-color: rgba(255, 255, 255, 0.4);
-    }
-    
-    /* Neon title with text animation */
+    /* Title styling */
     h1 {
         color: white !important;
         text-align: center;
-        font-weight: 900 !important;
-        margin-bottom: 0 !important;
-        font-size: 4.5rem !important;
-        letter-spacing: -2px !important;
-        text-shadow: 
-            0 0 10px rgba(255, 255, 255, 0.8),
-            0 0 20px rgba(255, 255, 255, 0.6),
-            0 0 40px rgba(102, 126, 234, 0.8),
-            0 0 80px rgba(118, 75, 162, 0.6),
-            0 5px 25px rgba(0, 0, 0, 0.3);
-        animation: glow 2s ease-in-out infinite alternate;
+        font-weight: 800 !important;
+        margin-bottom: 0.5rem !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
     }
     
-    @keyframes glow {
-        from {
-            text-shadow: 
-                0 0 10px rgba(255, 255, 255, 0.8),
-                0 0 20px rgba(255, 255, 255, 0.6),
-                0 0 40px rgba(102, 126, 234, 0.8),
-                0 0 80px rgba(118, 75, 162, 0.6);
-        }
-        to {
-            text-shadow: 
-                0 0 20px rgba(255, 255, 255, 1),
-                0 0 30px rgba(255, 255, 255, 0.8),
-                0 0 60px rgba(102, 126, 234, 1),
-                0 0 100px rgba(118, 75, 162, 0.8);
-        }
-    }
-    
-    /* Cyberpunk caption */
+    /* Caption styling */
     .caption {
         text-align: center;
-        color: rgba(255, 255, 255, 0.95) !important;
-        font-size: 1.3rem;
-        margin-bottom: 3rem;
-        font-weight: 400;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        color: rgba(255, 255, 255, 0.9) !important;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        font-weight: 300;
     }
     
-    /* Floating label animation */
+    /* Input labels */
     .stTextInput label, .stFileUploader label {
-        color: white !important;
-        font-weight: 700 !important;
+        color: #4a5568 !important;
+        font-weight: 600 !important;
         font-size: 0.95rem !important;
-        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-        animation: labelFloat 3s ease-in-out infinite;
     }
     
-    @keyframes labelFloat {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-2px); }
-    }
-    
-    /* Neon input fields with 3D depth */
-    .stTextInput input {
-        border-radius: 16px !important;
-        border: 2px solid rgba(255, 255, 255, 0.3) !important;
-        background: rgba(0, 0, 0, 0.2) !important;
-        backdrop-filter: blur(20px) !important;
-        color: white !important;
-        font-weight: 500 !important;
-        font-size: 1rem !important;
-        padding: 0.9rem 1.2rem !important;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        box-shadow: 
-            inset 0 2px 8px rgba(0, 0, 0, 0.3),
-            0 0 20px rgba(255, 255, 255, 0.1);
-    }
-    
-    .stTextInput input::placeholder {
-        color: rgba(255, 255, 255, 0.5) !important;
-        font-weight: 400;
+    /* Input fields */
+    .stTextInput input, .stFileUploader {
+        border-radius: 10px !important;
+        border: 2px solid #e2e8f0 !important;
+        transition: all 0.3s ease !important;
     }
     
     .stTextInput input:focus {
-        border-color: rgba(255, 255, 255, 0.9) !important;
-        background: rgba(255, 255, 255, 0.15) !important;
-        box-shadow: 
-            inset 0 2px 8px rgba(0, 0, 0, 0.2),
-            0 0 0 4px rgba(255, 255, 255, 0.2),
-            0 0 40px rgba(102, 126, 234, 0.5),
-            0 8px 24px rgba(0, 0, 0, 0.2) !important;
-        transform: translateY(-2px);
+        border-color: #667eea !important;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
     }
     
-    /* Futuristic file uploader */
-    .stFileUploader {
-        background: rgba(0, 0, 0, 0.2) !important;
-        backdrop-filter: blur(20px) !important;
-        border-radius: 20px !important;
-        border: 3px dashed rgba(255, 255, 255, 0.3) !important;
-        padding: 2rem !important;
-        transition: all 0.3s ease !important;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .stFileUploader::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-        animation: scan 3s linear infinite;
-    }
-    
-    @keyframes scan {
-        0% { transform: translate(-50%, -50%) rotate(0deg); }
-        100% { transform: translate(-50%, -50%) rotate(360deg); }
-    }
-    
-    .stFileUploader:hover {
-        border-color: rgba(255, 255, 255, 0.6) !important;
-        background: rgba(255, 255, 255, 0.1) !important;
-        box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
-    }
-    
-    .uploadedFile {
-        background: rgba(255, 255, 255, 0.15) !important;
-        backdrop-filter: blur(10px) !important;
-        border-radius: 12px !important;
-        padding: 0.8rem !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-    
-    /* Holographic submit button */
+    /* Submit button */
     .stButton>button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%) !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
         color: white !important;
-        font-weight: 900 !important;
+        font-weight: 700 !important;
         width: 100% !important;
-        border-radius: 20px !important;
-        padding: 1.2rem 2.5rem !important;
+        border-radius: 12px !important;
+        padding: 0.75rem 2rem !important;
         border: none !important;
-        font-size: 1.3rem !important;
-        letter-spacing: 2px !important;
-        text-transform: uppercase;
-        margin-top: 2rem !important;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 
-            0 10px 40px rgba(102, 126, 234, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    }
-    
-    .stButton>button::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        transform: rotate(45deg);
-        transition: all 0.6s;
-    }
-    
-    .stButton>button:hover::before {
-        left: 100%;
+        font-size: 1.1rem !important;
+        letter-spacing: 0.5px !important;
+        transition: all 0.3s ease !important;
+        margin-top: 1rem !important;
     }
     
     .stButton>button:hover {
-        transform: translateY(-4px) scale(1.02);
-        box-shadow: 
-            0 15px 50px rgba(102, 126, 234, 0.6),
-            inset 0 1px 0 rgba(255, 255, 255, 0.5),
-            0 0 60px rgba(118, 75, 162, 0.5);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4) !important;
     }
     
-    .stButton>button:active {
-        transform: translateY(-2px) scale(0.98);
+    /* File uploader */
+    .uploadedFile {
+        background-color: #f7fafc !important;
+        border-radius: 8px !important;
+        padding: 0.5rem !important;
     }
     
-    /* Neon results card */
-    .results-card {
-        background: rgba(255, 255, 255, 0.95);
-        padding: 3rem;
-        border-radius: 28px;
-        box-shadow: 
-            0 20px 60px rgba(0, 0, 0, 0.3),
-            0 0 80px rgba(102, 126, 234, 0.3);
-        margin: 2.5rem 0;
-        border: 2px solid rgba(102, 126, 234, 0.3);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .results-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #4facfe);
-        background-size: 200% 100%;
-        animation: gradientMove 3s linear infinite;
-    }
-    
-    @keyframes gradientMove {
-        0% { background-position: 0% 0%; }
-        100% { background-position: 200% 0%; }
-    }
-    
-    .results-card h3 {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        font-weight: 800 !important;
-        margin-bottom: 2rem !important;
-        font-size: 2rem !important;
-    }
-    
-    /* Success/Error messages with neon glow */
+    /* Success/Error messages */
     .stAlert {
-        border-radius: 16px !important;
-        margin-top: 1.5rem !important;
-        backdrop-filter: blur(10px) !important;
-        border-left: 4px solid !important;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        border-radius: 10px !important;
+        margin-top: 1rem !important;
     }
     
-    /* DataFrame with 3D effect */
+    /* DataFrame styling */
     .dataframe {
-        border-radius: 16px !important;
+        border-radius: 10px !important;
         overflow: hidden !important;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
     }
     
+    /* Remove white box around form */
     .stForm {
         border: none !important;
         background: transparent !important;
     }
     
-    .row-widget.stHorizontal {
-        gap: 1.5rem;
+    /* Info boxes */
+    .info-box {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        padding: 1.5rem;
+        border-radius: 12px;
+        border-left: 4px solid rgba(255, 255, 255, 0.8);
+        margin: 1.5rem 0;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
     
-    /* Holographic download button */
-    .stDownloadButton>button {
-        background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%) !important;
-        color: white !important;
-        font-weight: 800 !important;
-        border-radius: 16px !important;
-        padding: 1rem 2rem !important;
-        border: none !important;
-        transition: all 0.3s ease !important;
-        box-shadow: 0 8px 24px rgba(79, 172, 254, 0.3);
-        text-transform: uppercase;
-        letter-spacing: 1px;
+    .info-box h3 {
+        color: white;
+        margin-top: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
     }
     
-    .stDownloadButton>button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 32px rgba(79, 172, 254, 0.5) !important;
+    .info-box p {
+        color: rgba(255, 255, 255, 0.95);
+        margin-bottom: 0;
+        line-height: 1.8;
+        font-weight: 400;
     }
-    
-    /* Spinner customization */
-    .stSpinner > div {
-        border-top-color: rgba(255, 255, 255, 0.9) !important;
-    }
-    
-    /* Footer with neon line */
-    hr {
-        border: none;
-        height: 2px;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-        margin: 4rem 0 2rem 0;
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-    }
-    
-    /* Column headers glow */
-    thead tr th {
-        background: linear-gradient(135deg, #667eea, #764ba2) !important;
-        color: white !important;
-        font-weight: 700 !important;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    
-    /* Scrollbar styling */
-    ::-webkit-scrollbar {
-        width: 10px;
-    }
-    /* Hide empty Streamlit markdown containers (removes the white blank box) */
-    div[data-testid="stMarkdownContainer"]:empty {
-    display: none !important;
-    
-    ::-webkit-scrollbar-track {
-        background: rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-    }
-    
-    ::-webkit-scrollbar-thumb {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        border-radius: 10px;
-    }
-    
-    ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, #764ba2, #f093fb);
-    }
-    
-}
-
 </style>
 """, unsafe_allow_html=True)
 
 # ---------------- HEADER ----------------
-st.title("⚡ TOPSIS")
-st.markdown('<p class="caption">Advanced Decision Intelligence System</p>', unsafe_allow_html=True)
+st.title("📊 TOPSIS Decision Making Tool")
+st.markdown('<p class="caption">Technique for Order Preference by Similarity to Ideal Solution</p>', unsafe_allow_html=True)
+
+# ---------------- INFO BOX ----------------
+st.markdown("""
+<div class="info-box">
+    <h3>📝 How to use:</h3>
+    <p>
+        1️⃣ Upload a CSV file with alternatives and criteria<br>
+        2️⃣ Enter weights (comma-separated, e.g., 1,2,1,3)<br>
+        3️⃣ Specify impacts (+ for benefit, - for cost, e.g., +,+,-,+)<br>
+        4️⃣ Provide your email to receive results
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
 # ---------------- FORM ----------------
-st.markdown('<div class="liquid-glass">', unsafe_allow_html=True)
+st.markdown('<div class="card">', unsafe_allow_html=True)
 
 with st.form("topsis_form", clear_on_submit=False):
-    uploaded_file = st.file_uploader("🚀 Upload Decision Matrix", type=["csv"], help="Upload your CSV file with alternatives and criteria")
+    uploaded_file = st.file_uploader("📁 Upload CSV File", type=["csv"], help="Maximum file size: 200MB")
     
     col1, col2 = st.columns(2)
     with col1:
-        weights_input = st.text_input("⚖️ Weights", value="", placeholder="1,1,1,1")
+        weights_input = st.text_input("⚖️ Weights", value="", placeholder="e.g., 1,1,1,1", help="Comma-separated values")
     with col2:
-        impacts_input = st.text_input("📊 Impacts", value="", placeholder="+,+,-,+")
+        impacts_input = st.text_input("📈 Impacts", value="", placeholder="e.g., +,+,-,+", help="Use + or - for each criterion")
     
-    user_email = st.text_input("✉️ Email Address", placeholder="your.email@example.com")
+    user_email = st.text_input("📧 Email Address", placeholder="your.email@example.com")
 
-    submit_btn = st.form_submit_button("⚡ Generate Results")
+    submit_btn = st.form_submit_button("🚀 Generate TOPSIS Results")
 
 st.markdown('</div>', unsafe_allow_html=True)
 
@@ -465,6 +202,7 @@ if submit_btn:
         st.error("⚠️ Please enter weights and impacts")
         st.stop()
 
+    # Validate email format
     if "@" not in user_email or "." not in user_email:
         st.error("⚠️ Please enter a valid email address")
         st.stop()
@@ -486,6 +224,7 @@ if submit_btn:
         st.error(f"❌ Number of weights and impacts must match number of criteria. Expected {len(df.columns) - 1}, got {len(weights)} weights and {len(impacts)} impacts")
         st.stop()
 
+    # Validate impacts
     for impact in impacts:
         if impact.strip() not in ['+', '-']:
             st.error("❌ Impacts must be either '+' or '-'")
@@ -526,22 +265,23 @@ if submit_btn:
     df["Rank"] = df["Topsis Score"].rank(ascending=False, method="dense").astype(int)
 
     # Display results
-    with st.container():
-        st.markdown('<div class="results-card">', unsafe_allow_html=True)
-        st.subheader("⚡ Analysis Results")
-        st.dataframe(df, use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.subheader("📊 TOPSIS Results")
+    st.dataframe(df, use_container_width=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
-    # Save result temporarily
+    # -------- SAVE RESULT TEMPORARILY --------
     with tempfile.NamedTemporaryFile(delete=False, suffix=".csv", mode='w') as tmp:
         df.to_csv(tmp.name, index=False)
         result_path = tmp.name
 
-    # Send email
+    # -------- SEND EMAIL --------
+    # Check if email credentials are configured
     if SENDER_EMAIL == "yourgmail@gmail.com" or APP_PASSWORD == "your_app_password":
         st.warning("⚠️ Email functionality is not configured. Please set up SENDER_EMAIL and APP_PASSWORD.")
         st.info("📥 You can download the results below:")
         
+        # Provide download button
         csv_data = df.to_csv(index=False)
         st.download_button(
             label="⬇️ Download Results",
@@ -583,6 +323,7 @@ TOPSIS Decision Making Tool
 
             st.success(f"✅ Results sent successfully to {user_email}!")
             
+            # Also provide download option
             csv_data = df.to_csv(index=False)
             st.download_button(
                 label="⬇️ Download Results",
@@ -595,6 +336,7 @@ TOPSIS Decision Making Tool
             st.error(f"❌ Failed to send email: {str(e)}")
             st.info("💡 Please check your email configuration or use the download button below:")
             
+            # Provide download button as fallback
             csv_data = df.to_csv(index=False)
             st.download_button(
                 label="⬇️ Download Results",
@@ -604,6 +346,7 @@ TOPSIS Decision Making Tool
             )
             
         finally:
+            # Clean up temp file
             try:
                 os.unlink(result_path)
             except:
@@ -612,6 +355,6 @@ TOPSIS Decision Making Tool
 # ---------------- FOOTER ----------------
 st.markdown("---")
 st.markdown(
-    "<p style='text-align: center; color: rgba(255, 255, 255, 0.9); font-size: 1rem; letter-spacing: 2px;'>⚡ POWERED BY ADVANCED ANALYTICS ⚡</p>",
+    "<p style='text-align: center; color: white; opacity: 0.8;'>Made with ❤️ using Streamlit | TOPSIS Algorithm</p>",
     unsafe_allow_html=True
 )
