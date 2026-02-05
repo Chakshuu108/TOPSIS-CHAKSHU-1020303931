@@ -2,82 +2,73 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-st.set_page_config(page_title="TOPSIS Calculator", layout="centered")
+st.set_page_config(page_title="TOPSIS", layout="centered")
 
-st.title("📊 TOPSIS Decision Making Tool")
-st.write("Upload a CSV file and compute TOPSIS scores")
+st.title("TOPSIS Calculator")
 
-# File upload
-uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
+with st.form("topsis_form"):
+    input_file = st.file_uploader("File Name", type=["csv"])
+    weights_input = st.text_input("Weights", value="1,1,1,1")
+    impacts_input = st.text_input("Impacts", value="+,+,-,+")
+    email_id = st.text_input("Email Id")
 
-if uploaded_file:
-    df = pd.read_csv(uploaded_file)
-    st.subheader("Input Data")
+    submit_btn = st.form_submit_button("Submit")
+
+
+if submit_btn:
+    if input_file is None:
+        st.error("Please upload a CSV file")
+        st.stop()
+
+    try:
+        df = pd.read_csv(input_file)
+    except Exception:
+        st.error("Invalid CSV file")
+        st.stop()
+
+    weights = weights_input.split(",")
+    impacts = impacts_input.split(",")
+
+    if len(df.columns) < 3:
+        st.error("File must contain at least 3 columns")
+        st.stop()
+
+    if len(weights) != len(df.columns) - 1 or len(impacts) != len(df.columns) - 1:
+        st.error("Weights and impacts count must match criteria columns")
+        st.stop()
+
+    try:
+        weights = np.array(weights, dtype=float)
+        weights = weights / weights.sum()
+        df.iloc[:, 1:] = df.iloc[:, 1:].astype(float)
+    except:
+        st.error("Invalid numeric values in file or weights")
+        st.stop()
+
+    decision_matrix = df.iloc[:, 1:].values
+    norm_matrix = decision_matrix / np.sqrt((decision_matrix ** 2).sum(axis=0))
+    weighted_matrix = norm_matrix * weights
+
+    ideal_best, ideal_worst = [], []
+
+    for i in range(len(impacts)):
+        if impacts[i] == "+":
+            ideal_best.append(weighted_matrix[:, i].max())
+            ideal_worst.append(weighted_matrix[:, i].min())
+        else:
+            ideal_best.append(weighted_matrix[:, i].min())
+            ideal_worst.append(weighted_matrix[:, i].max())
+
+    ideal_best = np.array(ideal_best)
+    ideal_worst = np.array(ideal_worst)
+
+    dist_best = np.sqrt(((weighted_matrix - ideal_best) ** 2).sum(axis=1))
+    dist_worst = np.sqrt(((weighted_matrix - ideal_worst) ** 2).sum(axis=1))
+
+    score = dist_worst / (dist_best + dist_worst)
+
+    df["Topsis Score"] = score.round(6)
+    df["Rank"] = df["Topsis Score"].rank(ascending=False, method="dense").astype(int)
+
+    st.success("TOPSIS calculation completed")
     st.dataframe(df)
-
-    cols = df.columns.tolist()
-
-    st.subheader("TOPSIS Parameters")
-
-    weights = st.text_input(
-        "Enter weights (comma separated)",
-        placeholder="1,1,1,1"
-    )
-
-    impacts = st.text_input(
-        "Enter impacts (comma separated)",
-        placeholder="+,+,-,+"
-    )
-
-    if st.button("Calculate TOPSIS"):
-        try:
-            weights = np.array(list(map(float, weights.split(","))))
-            impacts = impacts.split(",")
-
-            data = df.iloc[:, 1:].values.astype(float)
-
-            # Step 1: Normalize
-            norm = data / np.sqrt((data ** 2).sum(axis=0))
-
-            # Step 2: Weighted normalized
-            weighted = norm * weights
-
-            # Step 3: Ideal best & worst
-            ideal_best = []
-            ideal_worst = []
-
-            for i in range(len(impacts)):
-                if impacts[i] == "+":
-                    ideal_best.append(weighted[:, i].max())
-                    ideal_worst.append(weighted[:, i].min())
-                else:
-                    ideal_best.append(weighted[:, i].min())
-                    ideal_worst.append(weighted[:, i].max())
-
-            ideal_best = np.array(ideal_best)
-            ideal_worst = np.array(ideal_worst)
-
-            # Step 4: Distance
-            d_pos = np.sqrt(((weighted - ideal_best) ** 2).sum(axis=1))
-            d_neg = np.sqrt(((weighted - ideal_worst) ** 2).sum(axis=1))
-
-            # Step 5: Score
-            score = d_neg / (d_pos + d_neg)
-
-            df["TOPSIS Score"] = score
-            df["Rank"] = df["TOPSIS Score"].rank(ascending=False)
-
-            st.subheader("Result")
-            st.dataframe(df)
-
-            # Download
-            csv = df.to_csv(index=False).encode("utf-8")
-            st.download_button(
-                "⬇️ Download Result CSV",
-                csv,
-                "result.csv",
-                "text/csv"
-            )
-
-        except Exception as e:
-            st.error(f"Error: {e}")
