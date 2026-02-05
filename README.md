@@ -133,7 +133,7 @@ M2,200,16,8,3,0.308314,5
 
 ```
 topsis-package/
-├── topsis_YourName_RollNo/
+├── topsis_chakshugupta_102303931/
 │   ├── __init__.py
 │   └── topsis.py
 ├── setup.py
@@ -166,7 +166,7 @@ twine upload dist/*
 ### Installation from PyPI
 
 ```bash
-pip install Topsis-YourName-RollNo
+pip install topsis_chakshugupta_102303931No
 ```
 
 ### Usage After Installation
@@ -176,7 +176,7 @@ pip install Topsis-YourName-RollNo
 topsis data.csv "1,1,1,2" "+,+,-,+" output.csv
 
 # Or in Python
-from topsis_YourName_RollNo import topsis
+from topsis_chakshugupta_102303931No import topsis
 topsis.calculate('data.csv', '1,1,1,2', '+,+,-,+', 'output.csv')
 ```
 
@@ -186,7 +186,7 @@ topsis.calculate('data.csv', '1,1,1,2', '+,+,-,+', 'output.csv')
 from setuptools import setup, find_packages
 
 setup(
-    name='Topsis-YourName-RollNo',
+    name='topsis_chakshugupta_102303931No',
     version='1.0.0',
     description='TOPSIS implementation for multi-criteria decision making',
     long_description=open('README.md').read(),
@@ -198,7 +198,7 @@ setup(
     install_requires=['pandas', 'numpy'],
     entry_points={
         'console_scripts': [
-            'topsis=topsis_YourName_RollNo.topsis:main',
+            'topsis=topsis_chakshugupta_102303931No.topsis:main',
         ],
     },
     classifiers=[
@@ -333,7 +333,7 @@ The application sends a professional email with:
 
 ## 🔗 Project Links
 
-- **PyPI Package**: [https://pypi.org/project/Topsis-YourName-RollNo/](https://pypi.org/project/Topsis-YourName-RollNo/)
+- **PyPI Package**: [https://pypi.org/project/topsis_chakshugupta_102303931No/](https://pypi.org/project/topsis_chakshugupta_102303931No/)
 - **GitHub Repository**: [https://github.com/yourusername/topsis-project](https://github.com/yourusername/topsis-project)
 - **Web Application**: [https://your-app.streamlit.app](https://your-app.streamlit.app)
 - **Documentation**: [Project Wiki or Docs Link]
@@ -363,7 +363,7 @@ This project is licensed under the MIT License.
 ## 👤 Author
 
 **Your Name**  
-Roll Number: Your-Roll-Number  
+102303931 Number: Your-102303931-Number  
 Email: your.email@example.com  
 
 ---
