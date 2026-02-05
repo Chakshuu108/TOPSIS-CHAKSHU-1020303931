@@ -334,23 +334,8 @@ The application sends a professional email with:
 ## 🔗 Project Links
 
 - **PyPI Package**: [https://pypi.org/project/topsis_chakshugupta_102303931/](https://pypi.org/project/topsis_chakshugupta_102303931/)
-- **GitHub Repository**: [https://github.com/yourusername/topsis-project](https://github.com/yourusername/topsis-project)
-- **Web Application**: [https://your-app.streamlit.app](https://your-app.streamlit.app)
-- **Documentation**: [Project Wiki or Docs Link]
-
----
-
-## 📚 References
-
-### Academic Resources
-- Hwang, C.L.; Yoon, K. (1981). "Multiple Attribute Decision Making: Methods and Applications"
-- [TOPSIS Wikipedia](https://en.wikipedia.org/wiki/TOPSIS)
-- [TOPSIS Tutorial - GeeksforGeeks](https://www.geeksforgeeks.org/topsis-method-for-multiple-criteria-decision-making/)
-
-### Technical Resources
-- [Python Packaging Guide](https://packaging.python.org/en/latest/tutorials/packaging-projects/)
-- [Streamlit Documentation](https://docs.streamlit.io/)
-- [PyPI Publishing Tutorial](https://realpython.com/pypi-publish-python-package/)
+- **GitHub Repository**: [[https://github.com/yourusername/topsis-project](https://github.com/Chakshuu108/TOPSIS-CHAKSHU-1020303931)]([https://github.com/chakshuuu108/topsis-project](https://github.com/Chakshuu108/TOPSIS-CHAKSHU-1020303931))
+- **Web Application**: [https://topsisbychakshu.streamlit.app](https://topsisbychakshu.streamlit.app)
 
 ---
 
@@ -363,8 +348,9 @@ This project is licensed under the MIT License.
 ## 👤 Author
 
 **Your Name**  
-102303931 Number: Your-102303931-Number  
-Email: your.email@example.com  
+CHAKSHU GUPTA
+RollNo.: 102303931 
+Email: cgupta_be23@thapar.edu
 
 ---
 
