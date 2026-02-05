@@ -34,16 +34,17 @@ st.markdown("""
     .block-container {
         padding-top: 3rem;
         padding-bottom: 3rem;
-        max-width: 800px;
+        max-width: 900px;
     }
     
-    /* Card styling */
-    .card {
-        background: rgba(255, 255, 255, 0.98);
+    /* Glass card styling */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
         padding: 2.5rem;
-        border-radius: 20px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        border: 1px solid rgba(255, 255, 255, 0.18);
         margin-bottom: 2rem;
     }
     
@@ -53,68 +54,107 @@ st.markdown("""
         text-align: center;
         font-weight: 800 !important;
         margin-bottom: 0.5rem !important;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        font-size: 3.5rem !important;
     }
     
     /* Caption styling */
     .caption {
         text-align: center;
-        color: rgba(255, 255, 255, 0.9) !important;
-        font-size: 1.1rem;
-        margin-bottom: 2rem;
+        color: rgba(255, 255, 255, 0.95) !important;
+        font-size: 1.2rem;
+        margin-bottom: 3rem;
         font-weight: 300;
+        letter-spacing: 1px;
     }
     
     /* Input labels */
     .stTextInput label, .stFileUploader label {
-        color: #4a5568 !important;
+        color: white !important;
         font-weight: 600 !important;
-        font-size: 0.95rem !important;
+        font-size: 1rem !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
     }
     
     /* Input fields */
-    .stTextInput input, .stFileUploader {
-        border-radius: 10px !important;
-        border: 2px solid #e2e8f0 !important;
+    .stTextInput input {
+        border-radius: 12px !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        background: rgba(255, 255, 255, 0.15) !important;
+        backdrop-filter: blur(10px) !important;
+        color: white !important;
+        font-weight: 500 !important;
         transition: all 0.3s ease !important;
     }
     
+    .stTextInput input::placeholder {
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+    
     .stTextInput input:focus {
-        border-color: #667eea !important;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+        border-color: rgba(255, 255, 255, 0.8) !important;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2) !important;
+        background: rgba(255, 255, 255, 0.2) !important;
+    }
+    
+    /* File uploader */
+    .stFileUploader {
+        background: rgba(255, 255, 255, 0.1) !important;
+        backdrop-filter: blur(10px) !important;
+        border-radius: 12px !important;
+        border: 2px dashed rgba(255, 255, 255, 0.3) !important;
+        padding: 1rem !important;
+    }
+    
+    .stFileUploader label {
+        color: white !important;
+    }
+    
+    .uploadedFile {
+        background: rgba(255, 255, 255, 0.2) !important;
+        backdrop-filter: blur(10px) !important;
+        border-radius: 8px !important;
+        padding: 0.5rem !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
     }
     
     /* Submit button */
     .stButton>button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-        color: white !important;
-        font-weight: 700 !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        color: #667eea !important;
+        font-weight: 800 !important;
         width: 100% !important;
-        border-radius: 12px !important;
-        padding: 0.75rem 2rem !important;
+        border-radius: 16px !important;
+        padding: 1rem 2rem !important;
         border: none !important;
-        font-size: 1.1rem !important;
-        letter-spacing: 0.5px !important;
+        font-size: 1.2rem !important;
+        letter-spacing: 1px !important;
         transition: all 0.3s ease !important;
-        margin-top: 1rem !important;
+        margin-top: 1.5rem !important;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2) !important;
     }
     
     .stButton>button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4) !important;
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3) !important;
+        background: white !important;
     }
     
-    /* File uploader */
-    .uploadedFile {
-        background-color: #f7fafc !important;
-        border-radius: 8px !important;
-        padding: 0.5rem !important;
+    /* Results card */
+    .results-card {
+        background: rgba(255, 255, 255, 0.98);
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        margin: 2rem 0;
     }
     
     /* Success/Error messages */
     .stAlert {
-        border-radius: 10px !important;
+        border-radius: 12px !important;
         margin-top: 1rem !important;
+        backdrop-filter: blur(10px) !important;
     }
     
     /* DataFrame styling */
@@ -129,61 +169,59 @@ st.markdown("""
         background: transparent !important;
     }
     
-    /* Info boxes */
-    .info-box {
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(10px);
-        padding: 1.5rem;
-        border-radius: 12px;
-        border-left: 4px solid rgba(255, 255, 255, 0.8);
-        margin: 1.5rem 0;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    /* Column spacing */
+    .row-widget.stHorizontal {
+        gap: 1rem;
     }
     
-    .info-box h3 {
-        color: white;
-        margin-top: 0;
-        font-size: 1.1rem;
-        font-weight: 600;
+    /* Download button */
+    .stDownloadButton>button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: white !important;
+        font-weight: 700 !important;
+        border-radius: 12px !important;
+        padding: 0.75rem 2rem !important;
+        border: none !important;
+        transition: all 0.3s ease !important;
     }
     
-    .info-box p {
-        color: rgba(255, 255, 255, 0.95);
-        margin-bottom: 0;
-        line-height: 1.8;
-        font-weight: 400;
+    .stDownloadButton>button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4) !important;
+    }
+    
+    /* Subheader in results */
+    .results-card h3 {
+        color: #667eea !important;
+        font-weight: 700 !important;
+        margin-bottom: 1.5rem !important;
+    }
+    
+    /* Footer */
+    hr {
+        border: none;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.2);
+        margin: 3rem 0 1rem 0;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # ---------------- HEADER ----------------
-st.title("📊 TOPSIS Decision Making Tool")
+st.title("📊 TOPSIS")
 st.markdown('<p class="caption">Technique for Order Preference by Similarity to Ideal Solution</p>', unsafe_allow_html=True)
 
-# ---------------- INFO BOX ----------------
-st.markdown("""
-<div class="info-box">
-    <h3>📝 How to use:</h3>
-    <p>
-        1️⃣ Upload a CSV file with alternatives and criteria<br>
-        2️⃣ Enter weights (comma-separated, e.g., 1,2,1,3)<br>
-        3️⃣ Specify impacts (+ for benefit, - for cost, e.g., +,+,-,+)<br>
-        4️⃣ Provide your email to receive results
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
 # ---------------- FORM ----------------
-st.markdown('<div class="card">', unsafe_allow_html=True)
+st.markdown('<div class="glass-card">', unsafe_allow_html=True)
 
 with st.form("topsis_form", clear_on_submit=False):
-    uploaded_file = st.file_uploader("📁 Upload CSV File", type=["csv"], help="Maximum file size: 200MB")
+    uploaded_file = st.file_uploader("📁 Upload CSV File", type=["csv"], help="Upload your decision matrix")
     
     col1, col2 = st.columns(2)
     with col1:
-        weights_input = st.text_input("⚖️ Weights", value="", placeholder="e.g., 1,1,1,1", help="Comma-separated values")
+        weights_input = st.text_input("⚖️ Weights", value="", placeholder="e.g., 1,1,1,1")
     with col2:
-        impacts_input = st.text_input("📈 Impacts", value="", placeholder="e.g., +,+,-,+", help="Use + or - for each criterion")
+        impacts_input = st.text_input("📈 Impacts", value="", placeholder="e.g., +,+,-,+")
     
     user_email = st.text_input("📧 Email Address", placeholder="your.email@example.com")
 
@@ -265,7 +303,7 @@ if submit_btn:
     df["Rank"] = df["Topsis Score"].rank(ascending=False, method="dense").astype(int)
 
     # Display results
-    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.markdown('<div class="results-card">', unsafe_allow_html=True)
     st.subheader("📊 TOPSIS Results")
     st.dataframe(df, use_container_width=True)
     st.markdown('</div>', unsafe_allow_html=True)
@@ -355,6 +393,6 @@ TOPSIS Decision Making Tool
 # ---------------- FOOTER ----------------
 st.markdown("---")
 st.markdown(
-    "<p style='text-align: center; color: white; opacity: 0.8;'>Made with ❤️ using Streamlit | TOPSIS Algorithm</p>",
+    "<p style='text-align: center; color: rgba(255, 255, 255, 0.9); font-size: 0.95rem;'>Made with ❤️ using Streamlit | TOPSIS Algorithm</p>",
     unsafe_allow_html=True
 )
