@@ -8,10 +8,9 @@ import os
 
 # ---------------- EMAIL CONFIG ----------------
 # Use Streamlit secrets or environment variables for production
-SENDER_EMAIL = os.getenv("SENDER_EMAIL", "your_email@gmail.com")
+SENDER_EMAIL = os.getenv("SENDER_EMAIL", "yourgmail@gmail.com")
 APP_PASSWORD = os.getenv("APP_PASSWORD", "your_app_password")
 # ---------------------------------------------
-
 
 
 st.set_page_config(
@@ -38,7 +37,7 @@ st.markdown("""
     
     /* Card styling */
     .card {
-        background: rgba(255, 255, 255, 0.95);
+        background: rgba(255, 255, 255, 0.98);
         padding: 2.5rem;
         border-radius: 20px;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -130,23 +129,27 @@ st.markdown("""
     
     /* Info boxes */
     .info-box {
-        background: linear-gradient(135deg, #f6f8fb 0%, #e9ecef 100%);
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
         padding: 1.5rem;
         border-radius: 12px;
-        border-left: 4px solid #667eea;
+        border-left: 4px solid rgba(255, 255, 255, 0.8);
         margin: 1.5rem 0;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
     
     .info-box h3 {
-        color: #667eea;
+        color: white;
         margin-top: 0;
         font-size: 1.1rem;
+        font-weight: 600;
     }
     
     .info-box p {
-        color: #4a5568;
+        color: rgba(255, 255, 255, 0.95);
         margin-bottom: 0;
-        line-height: 1.6;
+        line-height: 1.8;
+        font-weight: 400;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -176,9 +179,9 @@ with st.form("topsis_form", clear_on_submit=False):
     
     col1, col2 = st.columns(2)
     with col1:
-        weights_input = st.text_input("⚖️ Weights", value="1,1,1,1", help="Comma-separated values")
+        weights_input = st.text_input("⚖️ Weights", value="", placeholder="e.g., 1,1,1,1", help="Comma-separated values")
     with col2:
-        impacts_input = st.text_input("📈 Impacts", value="+,+,-,+", help="Use + or - for each criterion")
+        impacts_input = st.text_input("📈 Impacts", value="", placeholder="e.g., +,+,-,+", help="Use + or - for each criterion")
     
     user_email = st.text_input("📧 Email Address", placeholder="your.email@example.com")
 
@@ -191,6 +194,10 @@ if submit_btn:
 
     if uploaded_file is None or user_email.strip() == "":
         st.error("⚠️ Please upload a CSV file and enter your email address")
+        st.stop()
+    
+    if weights_input.strip() == "" or impacts_input.strip() == "":
+        st.error("⚠️ Please enter weights and impacts")
         st.stop()
 
     # Validate email format
