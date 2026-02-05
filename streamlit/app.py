@@ -4,7 +4,7 @@ import numpy as np
 
 st.set_page_config(page_title="TOPSIS", layout="centered")
 
-st.title("TOPSIS Calculator")
+st.title("🧮📊TOPSIS Calculator")
 
 with st.form("topsis_form"):
     input_file = st.file_uploader("File Name", type=["csv"])
