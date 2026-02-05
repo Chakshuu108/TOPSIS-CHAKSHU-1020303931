@@ -137,11 +137,9 @@ topsis-package/
 │   ├── __init__.py
 │   └── topsis.py
 ├── setup.py
-├── setup.cfg
 ├── pyproject.toml
 ├── README.md
 ├── LICENSE
-└── MANIFEST.in
 ```
 
 ### Package Naming Convention
