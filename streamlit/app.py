@@ -409,6 +409,9 @@ st.markdown("""
     ::-webkit-scrollbar {
         width: 10px;
     }
+    /* Hide empty Streamlit markdown containers (removes the white blank box) */
+    div[data-testid="stMarkdownContainer"]:empty {
+    display: none !important;
     
     ::-webkit-scrollbar-track {
         background: rgba(0, 0, 0, 0.1);
@@ -423,9 +426,7 @@ st.markdown("""
     ::-webkit-scrollbar-thumb:hover {
         background: linear-gradient(135deg, #764ba2, #f093fb);
     }
-    /* Hide empty Streamlit markdown containers (removes the white blank box) */
-    div[data-testid="stMarkdownContainer"]:empty {
-    display: none !important;
+    
 }
 
 </style>
