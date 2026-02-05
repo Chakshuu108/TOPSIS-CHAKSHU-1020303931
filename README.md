@@ -145,10 +145,10 @@ topsis-package/
 ### Package Naming Convention
 
 ```
-Topsis-FirstName-RollNumber
+topsis_chakshugupta_108
 ```
 
-**Example**: `Topsis-Anshul-102303930`
+**Example**: `topsis_chakshugupta_108`
 
 ### Building the Package
 
