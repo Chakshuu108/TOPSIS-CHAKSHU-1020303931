@@ -9,7 +9,7 @@ import os
 # ---------------- EMAIL CONFIG ----------------
 # Use Streamlit secrets or environment variables for production
 SENDER_EMAIL = "blackpanther.btech@gmail.com"  # Put your actual Gmail here
-APP_PASSWORD = "ChakshuTopsis@108"  # Put your app password here
+APP_PASSWORD = "bqgaaofhmnpnxlms"  # Put your app password here
 
 
 # ---------------------------------------------
