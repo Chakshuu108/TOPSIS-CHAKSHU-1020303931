@@ -347,9 +347,8 @@ This project is licensed under the MIT License.
 
 ## 👤 Author
 
-**Your Name**  
-CHAKSHU GUPTA
-RollNo.: 102303931 
+**Chakshu Gupta**  
+**102303931**
 Email: cgupta_be23@thapar.edu
 
 ---
