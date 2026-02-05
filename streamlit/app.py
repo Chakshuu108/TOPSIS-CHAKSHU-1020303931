@@ -8,8 +8,9 @@ import os
 
 # ---------------- EMAIL CONFIG ----------------
 # Use Streamlit secrets or environment variables for production
-SENDER_EMAIL = os.getenv("SENDER_EMAIL", "yourgmail@gmail.com")
-APP_PASSWORD = os.getenv("APP_PASSWORD", "your_app_password")
+SENDER_EMAIL = st.secrets["SENDER_EMAIL"]
+APP_PASSWORD = st.secrets["APP_PASSWORD"]
+
 # ---------------------------------------------
 
 
