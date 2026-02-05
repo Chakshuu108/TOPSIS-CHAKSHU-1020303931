@@ -166,7 +166,7 @@ twine upload dist/*
 ### Installation from PyPI
 
 ```bash
-pip install topsis_chakshugupta_102303931No
+pip install topsis_chakshugupta_102303931
 ```
 
 ### Usage After Installation
@@ -176,7 +176,7 @@ pip install topsis_chakshugupta_102303931No
 topsis data.csv "1,1,1,2" "+,+,-,+" output.csv
 
 # Or in Python
-from topsis_chakshugupta_102303931No import topsis
+from topsis_chakshugupta_102303931 import topsis
 topsis.calculate('data.csv', '1,1,1,2', '+,+,-,+', 'output.csv')
 ```
 
@@ -186,7 +186,7 @@ topsis.calculate('data.csv', '1,1,1,2', '+,+,-,+', 'output.csv')
 from setuptools import setup, find_packages
 
 setup(
-    name='topsis_chakshugupta_102303931No',
+    name='topsis_chakshugupta_102303931',
     version='1.0.0',
     description='TOPSIS implementation for multi-criteria decision making',
     long_description=open('README.md').read(),
@@ -198,7 +198,7 @@ setup(
     install_requires=['pandas', 'numpy'],
     entry_points={
         'console_scripts': [
-            'topsis=topsis_chakshugupta_102303931No.topsis:main',
+            'topsis=topsis_chakshugupta_102303931.topsis:main',
         ],
     },
     classifiers=[
@@ -333,7 +333,7 @@ The application sends a professional email with:
 
 ## 🔗 Project Links
 
-- **PyPI Package**: [https://pypi.org/project/topsis_chakshugupta_102303931No/](https://pypi.org/project/topsis_chakshugupta_102303931No/)
+- **PyPI Package**: [https://pypi.org/project/topsis_chakshugupta_102303931/](https://pypi.org/project/topsis_chakshugupta_102303931/)
 - **GitHub Repository**: [https://github.com/yourusername/topsis-project](https://github.com/yourusername/topsis-project)
 - **Web Application**: [https://your-app.streamlit.app](https://your-app.streamlit.app)
 - **Documentation**: [Project Wiki or Docs Link]
