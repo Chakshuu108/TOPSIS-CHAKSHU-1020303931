@@ -423,6 +423,11 @@ st.markdown("""
     ::-webkit-scrollbar-thumb:hover {
         background: linear-gradient(135deg, #764ba2, #f093fb);
     }
+    /* Hide empty Streamlit markdown containers (removes the white blank box) */
+    div[data-testid="stMarkdownContainer"]:empty {
+    display: none !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
